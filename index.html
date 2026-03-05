@@ -1,0 +1,890 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+<title>Mídia & Cia – Comunicação Visual</title>
+<link href="https://fonts.googleapis.com/css2?family=Barlow+Condensed:wght@400;600;700;800;900&family=Barlow:wght@400;500;600&display=swap" rel="stylesheet"/>
+<script src="https://unpkg.com/@phosphor-icons/web"></script>
+<style>
+  :root {
+    --blue:    #0072CE;
+    --magenta: #E5007D;
+    --yellow:  #FFD700;
+    --green:   #00B140;
+    --purple:  #7B2FBE;
+    --dark:    #0A0A14;
+    --light:   #F5F5F5;
+    --white:   #FFFFFF;
+  }
+
+  *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+  html { scroll-behavior: smooth; }
+
+  body {
+    font-family: 'Barlow', sans-serif;
+    background: var(--dark);
+    color: var(--white);
+    overflow-x: hidden;
+  }
+
+  /* ─── NAVBAR ─── */
+  nav {
+    position: fixed; top: 0; left: 0; right: 0; z-index: 100;
+    display: flex; align-items: center; justify-content: space-between;
+    padding: 18px 6%;
+    background: rgba(10,10,20,0.85);
+    backdrop-filter: blur(12px);
+    border-bottom: 1px solid rgba(255,255,255,0.07);
+  }
+
+  .nav-logo {
+    font-family: 'Barlow Condensed', sans-serif;
+    font-size: 1.5rem; font-weight: 900; letter-spacing: 1px;
+    text-transform: uppercase;
+  }
+  .nav-logo span { color: var(--magenta); }
+
+  .nav-links { display: flex; gap: 32px; list-style: none; }
+  .nav-links a {
+    text-decoration: none; color: rgba(255,255,255,0.75);
+    font-size: .9rem; font-weight: 500; letter-spacing: .5px;
+    transition: color .2s;
+  }
+  .nav-links a:hover { color: var(--yellow); }
+
+  .nav-cta {
+    background: var(--magenta); color: #fff;
+    padding: 10px 24px; border-radius: 4px;
+    font-family: 'Barlow Condensed', sans-serif;
+    font-size: 1rem; font-weight: 700; letter-spacing: 1px;
+    text-decoration: none; text-transform: uppercase;
+    transition: background .2s, transform .15s;
+  }
+  .nav-cta:hover { background: #c40069; transform: translateY(-1px); }
+
+  /* ─── HERO ─── */
+  #hero {
+    min-height: 100vh;
+    display: flex; align-items: center;
+    padding: 120px 6% 80px;
+    position: relative; overflow: hidden;
+  }
+
+  .hero-bg {
+    position: absolute; inset: 0; z-index: 0;
+    background: radial-gradient(ellipse at 70% 50%, rgba(0,114,206,0.18) 0%, transparent 60%),
+                radial-gradient(ellipse at 20% 80%, rgba(229,0,125,0.14) 0%, transparent 55%),
+                radial-gradient(ellipse at 50% 10%, rgba(123,47,190,0.12) 0%, transparent 50%),
+                var(--dark);
+  }
+
+  /* diagonal stripe accent */
+  .hero-bg::after {
+    content: '';
+    position: absolute; top: 0; right: 0;
+    width: 48%; height: 100%;
+    background: linear-gradient(135deg,
+      var(--blue) 0%, var(--purple) 30%,
+      var(--magenta) 60%, var(--yellow) 100%);
+    clip-path: polygon(18% 0, 100% 0, 100% 100%, 0% 100%);
+    opacity: .07;
+  }
+
+  /* floating color blobs */
+  .blob {
+    position: absolute; border-radius: 50%; filter: blur(80px); opacity: .25; z-index: 0;
+    animation: drift 8s ease-in-out infinite alternate;
+  }
+  .blob-1 { width:420px; height:420px; background:var(--blue);    top:-80px;  right:10%; animation-delay:0s; }
+  .blob-2 { width:320px; height:320px; background:var(--magenta); bottom:-60px; left:5%;  animation-delay:2s; }
+  .blob-3 { width:260px; height:260px; background:var(--yellow);  top:30%;    right:30%; animation-delay:4s; }
+
+  @keyframes drift {
+    from { transform: translate(0,0) scale(1); }
+    to   { transform: translate(20px, 30px) scale(1.06); }
+  }
+
+  .hero-content { position: relative; z-index: 1; max-width: 600px; }
+
+  .hero-badge {
+    display: inline-block;
+    background: linear-gradient(90deg, var(--blue), var(--purple));
+    padding: 6px 16px; border-radius: 20px;
+    font-size: .78rem; font-weight: 700; letter-spacing: 2px;
+    text-transform: uppercase; margin-bottom: 24px;
+    animation: fadeUp .6s ease both;
+  }
+
+  .hero-title {
+    font-family: 'Barlow Condensed', sans-serif;
+    font-size: clamp(3rem, 7vw, 5.5rem);
+    font-weight: 900; line-height: 1;
+    text-transform: uppercase; letter-spacing: -1px;
+    animation: fadeUp .7s .1s ease both;
+  }
+  .hero-title .accent-blue    { color: var(--blue); }
+  .hero-title .accent-magenta { color: var(--magenta); }
+  .hero-title .accent-yellow  { color: var(--yellow); }
+
+  .hero-sub {
+    margin: 20px 0 36px;
+    font-size: 1.1rem; line-height: 1.65;
+    color: rgba(255,255,255,.72);
+    animation: fadeUp .7s .2s ease both;
+  }
+
+  .hero-actions {
+    display: flex; gap: 16px; flex-wrap: wrap;
+    animation: fadeUp .7s .3s ease both;
+  }
+
+  .btn-primary {
+    background: linear-gradient(135deg, var(--magenta), var(--purple));
+    color: #fff; padding: 14px 32px; border-radius: 4px;
+    font-family: 'Barlow Condensed', sans-serif;
+    font-size: 1.1rem; font-weight: 800; letter-spacing: 1px;
+    text-transform: uppercase; text-decoration: none;
+    box-shadow: 0 8px 30px rgba(229,0,125,.35);
+    transition: transform .2s, box-shadow .2s;
+  }
+  .btn-primary:hover { transform: translateY(-2px); box-shadow: 0 12px 40px rgba(229,0,125,.5); }
+
+  .btn-secondary {
+    border: 2px solid rgba(255,255,255,.25); color: #fff;
+    padding: 14px 32px; border-radius: 4px;
+    font-family: 'Barlow Condensed', sans-serif;
+    font-size: 1.1rem; font-weight: 700; letter-spacing: 1px;
+    text-transform: uppercase; text-decoration: none;
+    transition: border-color .2s, background .2s;
+  }
+  .btn-secondary:hover { border-color: var(--yellow); background: rgba(255,215,0,.08); }
+
+  .hero-stats {
+    display: flex; gap: 40px; margin-top: 60px;
+    animation: fadeUp .7s .45s ease both;
+  }
+  .stat-num {
+    font-family: 'Barlow Condensed', sans-serif;
+    font-size: 2.4rem; font-weight: 900;
+    line-height: 1;
+  }
+  .stat-num.blue    { color: var(--blue); }
+  .stat-num.magenta { color: var(--magenta); }
+  .stat-num.yellow  { color: var(--yellow); }
+  .stat-label { font-size: .78rem; color: rgba(255,255,255,.5); margin-top: 4px; letter-spacing: .5px; }
+
+  @keyframes fadeUp {
+    from { opacity: 0; transform: translateY(28px); }
+    to   { opacity: 1; transform: translateY(0); }
+  }
+
+  /* ─── DIVIDER ─── */
+  .rainbow-bar {
+    height: 4px;
+    background: linear-gradient(90deg,
+      var(--blue), var(--purple), var(--magenta),
+      var(--yellow), var(--green), var(--blue));
+  }
+
+  /* ─── SECTION BASE ─── */
+  section { padding: 100px 6%; }
+
+  .section-label {
+    font-family: 'Barlow Condensed', sans-serif;
+    font-size: .8rem; font-weight: 700; letter-spacing: 3px;
+    text-transform: uppercase; color: var(--magenta);
+    margin-bottom: 12px;
+  }
+
+  .section-title {
+    font-family: 'Barlow Condensed', sans-serif;
+    font-size: clamp(2rem, 4vw, 3.2rem);
+    font-weight: 900; text-transform: uppercase;
+    line-height: 1.05; letter-spacing: -0.5px;
+  }
+
+  .section-title em { font-style: normal; }
+  .section-title .hl-blue    { color: var(--blue); }
+  .section-title .hl-magenta { color: var(--magenta); }
+  .section-title .hl-yellow  { color: var(--yellow); }
+
+  /* ─── SERVICES ─── */
+  #servicos { background: #0e0e1c; }
+
+  .services-header { max-width: 520px; margin-bottom: 60px; }
+  .services-header p { margin-top: 16px; color: rgba(255,255,255,.6); line-height: 1.7; }
+
+  .services-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(260px, 1fr));
+    gap: 24px;
+  }
+
+  .service-card {
+    background: rgba(255,255,255,.04);
+    border: 1px solid rgba(255,255,255,.08);
+    border-radius: 8px; padding: 36px 28px;
+    position: relative; overflow: hidden;
+    transition: transform .25s, border-color .25s;
+  }
+  .service-card::before {
+    content: '';
+    position: absolute; top: 0; left: 0; right: 0; height: 3px;
+    border-radius: 8px 8px 0 0;
+  }
+  .service-card:nth-child(1)::before { background: var(--blue); }
+  .service-card:nth-child(2)::before { background: var(--magenta); }
+  .service-card:nth-child(3)::before { background: var(--yellow); }
+  .service-card:nth-child(4)::before { background: var(--green); }
+  .service-card:nth-child(5)::before { background: var(--purple); }
+  .service-card:nth-child(6)::before { background: linear-gradient(90deg,var(--blue),var(--magenta)); }
+
+  .service-card:hover {
+    transform: translateY(-6px);
+    border-color: rgba(255,255,255,.18);
+  }
+
+  .service-icon {
+    font-size: 2.2rem; margin-bottom: 18px; display: inline-block;
+    filter: drop-shadow(0 0 10px rgba(255,255,255,.2));
+  }
+
+  .service-name {
+    font-family: 'Barlow Condensed', sans-serif;
+    font-size: 1.4rem; font-weight: 800;
+    text-transform: uppercase; letter-spacing: .5px;
+    margin-bottom: 10px;
+  }
+
+  .service-desc { color: rgba(255,255,255,.55); font-size: .9rem; line-height: 1.65; }
+
+  /* ─── WHY US ─── */
+  #diferenciais {
+    background: var(--dark);
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 80px; align-items: center;
+  }
+
+  .why-visual {
+    position: relative;
+    display: grid; grid-template-columns: 1fr 1fr; gap: 12px;
+  }
+
+  .why-block {
+    border-radius: 8px; padding: 32px 24px;
+    display: flex; flex-direction: column; gap: 8px;
+  }
+  .why-block-num {
+    font-family: 'Barlow Condensed', sans-serif;
+    font-size: 3rem; font-weight: 900; line-height: 1;
+    opacity: .15;
+  }
+  .why-block-title {
+    font-family: 'Barlow Condensed', sans-serif;
+    font-size: 1.1rem; font-weight: 800;
+    text-transform: uppercase; letter-spacing: .5px;
+  }
+  .why-block-text { font-size: .82rem; color: rgba(255,255,255,.55); line-height: 1.55; }
+
+  .why-block:nth-child(1) { background: rgba(0,114,206,.15); border: 1px solid rgba(0,114,206,.25); }
+  .why-block:nth-child(2) { background: rgba(229,0,125,.15); border: 1px solid rgba(229,0,125,.25); margin-top: 2px; }
+  .why-block:nth-child(3) { background: rgba(255,215,0,.12); border: 1px solid rgba(255,215,0,.22); margin-top: -2px; }
+  .why-block:nth-child(4) { background: rgba(123,47,190,.15); border: 1px solid rgba(123,47,190,.25); }
+
+  .why-content .section-title { margin-bottom: 24px; }
+  .why-content p { color: rgba(255,255,255,.6); line-height: 1.75; margin-bottom: 16px; }
+
+  .feature-list { list-style: none; margin: 24px 0 36px; display: flex; flex-direction: column; gap: 12px; }
+  .feature-list li {
+    display: flex; align-items: center; gap: 12px;
+    font-size: .95rem; color: rgba(255,255,255,.8);
+  }
+  .feature-list li::before {
+    content: '✓';
+    background: var(--green); color: #fff;
+    width: 22px; height: 22px; border-radius: 50%;
+    display: grid; place-items: center;
+    font-size: .7rem; font-weight: 700; flex-shrink: 0;
+  }
+
+  /* ─── PORTFOLIO ─── */
+  #portfolio { background: #0e0e1c; }
+
+  .portfolio-header { text-align: center; max-width: 540px; margin: 0 auto 60px; }
+  .portfolio-header p { margin-top: 16px; color: rgba(255,255,255,.55); }
+
+  .portfolio-grid {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    grid-template-rows: auto auto;
+    gap: 16px;
+  }
+
+  .port-item {
+    border-radius: 8px; overflow: hidden; position: relative;
+    min-height: 200px;
+    display: flex; align-items: flex-end;
+    cursor: pointer;
+  }
+  .port-item:nth-child(1) { grid-column: span 2; min-height: 280px; }
+  .port-item:nth-child(5) { grid-column: span 2; }
+
+  .port-bg {
+    position: absolute; inset: 0;
+    display: flex; align-items: center; justify-content: center;
+    font-size: 4rem; color: rgba(255,255,255,0.3);
+    transition: transform .4s;
+  }
+  .port-item:hover .port-bg { transform: scale(1.05); }
+
+  .port-item:nth-child(1) .port-bg { background: linear-gradient(135deg, #0072CE22, #7B2FBE44), #0e1830; }
+  .port-item:nth-child(2) .port-bg { background: linear-gradient(135deg, #E5007D22, #FF6B3544), #1a0e18; }
+  .port-item:nth-child(3) .port-bg { background: linear-gradient(135deg, #FFD70022, #00B14044), #141a0e; }
+  .port-item:nth-child(4) .port-bg { background: linear-gradient(135deg, #7B2FBE22, #0072CE44), #100e1a; }
+  .port-item:nth-child(5) .port-bg { background: linear-gradient(135deg, #00B14022, #FFD70044), #0e1a14; }
+  .port-item:nth-child(6) .port-bg { background: linear-gradient(135deg, #E5007D22, #7B2FBE44), #1a0e1a; }
+
+  .port-info {
+    position: relative; z-index: 1; width: 100%;
+    padding: 16px 20px;
+    background: linear-gradient(0deg, rgba(0,0,0,.85) 0%, transparent 100%);
+  }
+  .port-info strong {
+    font-family: 'Barlow Condensed', sans-serif;
+    font-size: 1rem; font-weight: 800; text-transform: uppercase; letter-spacing: .5px;
+    display: block;
+  }
+  .port-info span { font-size: .78rem; color: rgba(255,255,255,.5); }
+
+  /* ─── DEPOIMENTOS ─── */
+  #depoimentos { background: var(--dark); }
+
+  .dep-header { text-align: center; margin-bottom: 60px; }
+
+  .dep-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+    gap: 24px;
+  }
+
+  .dep-card {
+    background: rgba(255,255,255,.04);
+    border: 1px solid rgba(255,255,255,.08);
+    border-radius: 8px; padding: 32px 28px;
+    transition: border-color .25s;
+  }
+  .dep-card:hover { border-color: rgba(255,255,255,.18); }
+
+  .dep-stars { color: var(--yellow); font-size: 1rem; margin-bottom: 16px; letter-spacing: 2px; }
+
+  .dep-text { color: rgba(255,255,255,.7); line-height: 1.7; font-size: .95rem; margin-bottom: 24px; }
+
+  .dep-author { display: flex; align-items: center; gap: 12px; }
+
+  .dep-avatar {
+    width: 42px; height: 42px; border-radius: 50%;
+    display: grid; place-items: center;
+    font-family: 'Barlow Condensed', sans-serif;
+    font-size: 1.1rem; font-weight: 900;
+    flex-shrink: 0;
+  }
+  .dep-card:nth-child(1) .dep-avatar { background: linear-gradient(135deg,var(--blue),var(--purple)); }
+  .dep-card:nth-child(2) .dep-avatar { background: linear-gradient(135deg,var(--magenta),var(--purple)); }
+  .dep-card:nth-child(3) .dep-avatar { background: linear-gradient(135deg,var(--green),var(--blue)); }
+
+  .dep-name { font-weight: 600; font-size: .95rem; }
+  .dep-role { font-size: .78rem; color: rgba(255,255,255,.4); }
+
+  /* ─── CONTATO ─── */
+  #contato {
+    background: #0e0e1c;
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 80px; align-items: start;
+  }
+
+  .contact-info .section-title { margin-bottom: 20px; }
+  .contact-info p { color: rgba(255,255,255,.6); line-height: 1.75; margin-bottom: 36px; }
+
+  .contact-items { display: flex; flex-direction: column; gap: 20px; }
+  .contact-item { display: flex; gap: 14px; align-items: flex-start; }
+  .contact-icon {
+    width: 40px; height: 40px; border-radius: 6px;
+    background: rgba(0,114,206,.2); border: 1px solid rgba(0,114,206,.35);
+    display: grid; place-items: center; font-size: 1.1rem; flex-shrink: 0;
+  }
+  .contact-item-label { font-size: .78rem; color: rgba(255,255,255,.4); margin-bottom: 2px; }
+  .contact-item-value { font-weight: 500; font-size: .95rem; }
+
+  .contact-form { display: flex; flex-direction: column; gap: 16px; }
+
+  .form-row { display: grid; grid-template-columns: 1fr 1fr; gap: 16px; }
+
+  .form-group { display: flex; flex-direction: column; gap: 6px; }
+  .form-group label { font-size: .8rem; color: rgba(255,255,255,.5); letter-spacing: .5px; text-transform: uppercase; }
+
+  .form-group input,
+  .form-group select,
+  .form-group textarea {
+    background: rgba(255,255,255,.05);
+    border: 1px solid rgba(255,255,255,.12);
+    border-radius: 6px; padding: 12px 16px;
+    color: #fff; font-family: 'Barlow', sans-serif; font-size: .95rem;
+    outline: none; transition: border-color .2s;
+    resize: none;
+  }
+  .form-group input:focus,
+  .form-group select:focus,
+  .form-group textarea:focus { border-color: var(--blue); }
+
+  .form-group select option { background: #0e0e1c; }
+
+  .btn-submit {
+    background: linear-gradient(135deg, var(--blue), var(--purple));
+    color: #fff; border: none; cursor: pointer;
+    padding: 16px; border-radius: 6px;
+    font-family: 'Barlow Condensed', sans-serif;
+    font-size: 1.1rem; font-weight: 800; letter-spacing: 1.5px;
+    text-transform: uppercase;
+    box-shadow: 0 8px 30px rgba(0,114,206,.3);
+    transition: transform .2s, box-shadow .2s;
+  }
+  .btn-submit:hover { transform: translateY(-2px); box-shadow: 0 12px 40px rgba(0,114,206,.5); }
+
+  /* ─── CTA BAND ─── */
+  #cta-band {
+    padding: 80px 6%;
+    background: linear-gradient(135deg, var(--blue) 0%, var(--purple) 50%, var(--magenta) 100%);
+    text-align: center; position: relative; overflow: hidden;
+  }
+  #cta-band::before {
+    content: '';
+    position: absolute; inset: 0;
+    background: url("data:image/svg+xml,%3Csvg width='60' height='60' viewBox='0 0 60 60' xmlns='http://www.w3.org/2000/svg'%3E%3Cg fill='none' fill-rule='evenodd'%3E%3Cg fill='%23ffffff' fill-opacity='0.05'%3E%3Cpath d='M36 34v-4h-2v4h-4v2h4v4h2v-4h4v-2h-4zm0-30V0h-2v4h-4v2h4v4h2V6h4V4h-4zM6 34v-4H4v4H0v2h4v4h2v-4h4v-2H6zM6 4V0H4v4H0v2h4v4h2V6h4V4H6z'/%3E%3C/g%3E%3C/g%3E%3C/svg%3E");
+  }
+  #cta-band h2 {
+    font-family: 'Barlow Condensed', sans-serif;
+    font-size: clamp(2rem, 5vw, 3.5rem);
+    font-weight: 900; text-transform: uppercase; letter-spacing: -0.5px;
+    position: relative; margin-bottom: 16px;
+  }
+  #cta-band p { position: relative; color: rgba(255,255,255,.85); margin-bottom: 36px; font-size: 1.05rem; }
+
+  .btn-cta-white {
+    background: #fff; color: var(--blue);
+    padding: 16px 40px; border-radius: 4px;
+    font-family: 'Barlow Condensed', sans-serif;
+    font-size: 1.15rem; font-weight: 900; letter-spacing: 1px;
+    text-transform: uppercase; text-decoration: none;
+    position: relative;
+    box-shadow: 0 8px 30px rgba(0,0,0,.25);
+    transition: transform .2s, box-shadow .2s;
+  }
+  .btn-cta-white:hover { transform: translateY(-2px); box-shadow: 0 12px 40px rgba(0,0,0,.35); }
+
+  /* ─── FOOTER ─── */
+  footer {
+    background: #07070f;
+    padding: 60px 6% 30px;
+  }
+
+  .footer-top {
+    display: grid;
+    grid-template-columns: 1.5fr 1fr 1fr;
+    gap: 60px; padding-bottom: 48px;
+    border-bottom: 1px solid rgba(255,255,255,.07);
+    margin-bottom: 28px;
+  }
+
+  .footer-brand .nav-logo { font-size: 1.8rem; margin-bottom: 14px; display: block; }
+  .footer-brand p { color: rgba(255,255,255,.45); font-size: .88rem; line-height: 1.7; max-width: 300px; }
+
+  .footer-col h4 {
+    font-family: 'Barlow Condensed', sans-serif;
+    font-size: .8rem; font-weight: 700; letter-spacing: 2px;
+    text-transform: uppercase; color: rgba(255,255,255,.35);
+    margin-bottom: 16px;
+  }
+  .footer-col ul { list-style: none; display: flex; flex-direction: column; gap: 10px; }
+  .footer-col ul a { text-decoration: none; color: rgba(255,255,255,.55); font-size: .9rem; transition: color .2s; }
+  .footer-col ul a:hover { color: var(--yellow); }
+
+  .footer-bottom {
+    display: flex; justify-content: space-between; align-items: center;
+    font-size: .82rem; color: rgba(255,255,255,.3);
+  }
+  .footer-bottom a { color: var(--magenta); text-decoration: none; }
+
+  /* ─── WHATSAPP FAB ─── */
+  .whatsapp-fab {
+    position: fixed; bottom: 28px; right: 28px; z-index: 200;
+    width: 56px; height: 56px; border-radius: 50%;
+    background: #25D366;
+    display: grid; place-items: center;
+    box-shadow: 0 6px 24px rgba(37,211,102,.45);
+    text-decoration: none; font-size: 1.6rem;
+    transition: transform .2s, box-shadow .2s;
+  }
+  .whatsapp-fab:hover { transform: scale(1.1); box-shadow: 0 10px 32px rgba(37,211,102,.6); }
+
+  /* ─── RESPONSIVE ─── */
+  @media (max-width: 900px) {
+    #diferenciais, #contato { grid-template-columns: 1fr; gap: 50px; }
+    .portfolio-grid { grid-template-columns: 1fr 1fr; }
+    .port-item:nth-child(1),
+    .port-item:nth-child(5) { grid-column: span 2; }
+    .footer-top { grid-template-columns: 1fr 1fr; }
+  }
+
+  @media (max-width: 600px) {
+    nav { padding: 14px 5%; }
+    .nav-links { display: none; }
+    .hero-stats { gap: 24px; }
+    .portfolio-grid { grid-template-columns: 1fr; }
+    .port-item:nth-child(1),
+    .port-item:nth-child(5) { grid-column: span 1; }
+    .form-row { grid-template-columns: 1fr; }
+    .footer-top { grid-template-columns: 1fr; gap: 32px; }
+    .footer-bottom { flex-direction: column; gap: 8px; text-align: center; }
+  }
+</style>
+</head>
+<body>
+
+<!-- NAV -->
+<nav>
+  <span class="nav-logo">Mídia <span>&</span> Cia</span>
+  <ul class="nav-links">
+    <li><a href="#servicos">Serviços</a></li>
+    <li><a href="#diferenciais">Por Que Nós</a></li>
+    <li><a href="#portfolio">Portfólio</a></li>
+    <li><a href="#depoimentos">Depoimentos</a></li>
+    <li><a href="#contato">Contato</a></li>
+  </ul>
+  <a href="#contato" class="nav-cta">Orçamento</a>
+</nav>
+
+<!-- HERO -->
+<section id="hero">
+  <div class="hero-bg">
+    <div class="blob blob-1"></div>
+    <div class="blob blob-2"></div>
+    <div class="blob blob-3"></div>
+  </div>
+  <div class="hero-content">
+    <span class="hero-badge">Comunicação Visual</span>
+    <h1 class="hero-title">
+      Sua marca<br>
+      <span class="accent-blue">visível</span> onde<br>
+      <span class="accent-magenta">importa</span><span class="accent-yellow">.</span>
+    </h1>
+    <p class="hero-sub">
+      Da ideia à impressão — produzimos materiais gráficos de alto impacto para empresas que querem se destacar: banners, adesivos, fachadas, sinalizações e muito mais.
+    </p>
+    <div class="hero-actions">
+      <a href="#contato" class="btn-primary">Pedir Orçamento</a>
+      <a href="#portfolio" class="btn-secondary">Ver Portfólio</a>
+    </div>
+    <div class="hero-stats">
+      <div>
+        <div class="stat-num blue">500+</div>
+        <div class="stat-label">Clientes atendidos</div>
+      </div>
+      <div>
+        <div class="stat-num magenta">10+</div>
+        <div class="stat-label">Anos de mercado</div>
+      </div>
+      <div>
+        <div class="stat-num yellow">98%</div>
+        <div class="stat-label">Satisfação</div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<div class="rainbow-bar"></div>
+
+<!-- SERVIÇOS -->
+<section id="servicos">
+  <div class="services-header">
+    <p class="section-label">O que fazemos</p>
+    <h2 class="section-title">Soluções em <span class="hl-blue">comunicação</span> visual</h2>
+    <p>Tudo que a sua empresa precisa para comunicar com clareza e impacto, do projeto à entrega.</p>
+  </div>
+  <div class="services-grid">
+    <div class="service-card">
+      <i class="ph ph-palette service-icon" style="color: var(--blue)"></i>
+      <div class="service-name">Identidade Visual</div>
+      <p class="service-desc">Logo, cores, tipografia e guia de marca para sua empresa ter uma presença consistente e profissional.</p>
+    </div>
+    <div class="service-card">
+      <i class="ph ph-image service-icon" style="color: var(--magenta)"></i>
+      <div class="service-name">Banners & Outdoors</div>
+      <p class="service-desc">Impressão de grande formato com qualidade superior, durabilidade e acabamento impecável.</p>
+    </div>
+    <div class="service-card">
+      <i class="ph ph-signpost service-icon" style="color: var(--yellow)"></i>
+      <div class="service-name">Sinalização</div>
+      <p class="service-desc">Placas, totens, letras caixas e fachadas que orientam, identificam e valorizam seu espaço.</p>
+    </div>
+    <div class="service-card">
+      <i class="ph ph-sticker service-icon" style="color: var(--green)"></i>
+      <div class="service-name">Adesivos</div>
+      <p class="service-desc">Adesivos para vidro, parede, viatura, chão e muito mais — corte reto ou especial, plotagem e envelopamento.</p>
+    </div>
+    <div class="service-card">
+      <i class="ph ph-printer service-icon" style="color: var(--purple)"></i>
+      <div class="service-name">Materiais Impressos</div>
+      <p class="service-desc">Flyers, catálogos, folders, cartões de visita e embalagens com design e impressão de qualidade.</p>
+    </div>
+    <div class="service-card">
+      <i class="ph ph-desktop service-icon" style="color: var(--blue)"></i>
+      <div class="service-name">Comunicação Digital</div>
+      <p class="service-desc">Artes para redes sociais, e-mail marketing e campanhas digitais alinhadas à sua identidade visual.</p>
+    </div>
+  </div>
+</section>
+
+<!-- DIFERENCIAIS -->
+<section id="diferenciais">
+  <div class="why-visual">
+    <div class="why-block">
+      <div class="why-block-num">01</div>
+      <div class="why-block-title">Agilidade</div>
+      <p class="why-block-text">Prazos cumpridos sem abrir mão da qualidade. Produção rápida mesmo nos pedidos urgentes.</p>
+    </div>
+    <div class="why-block">
+      <div class="why-block-num">02</div>
+      <div class="why-block-title">Qualidade</div>
+      <p class="why-block-text">Materiais de primeira e equipamentos modernos para resultados que impressionam.</p>
+    </div>
+    <div class="why-block">
+      <div class="why-block-num">03</div>
+      <div class="why-block-title">Atendimento</div>
+      <p class="why-block-text">Suporte próximo do início ao fim. Consultoria personalizada para cada projeto.</p>
+    </div>
+    <div class="why-block">
+      <div class="why-block-num">04</div>
+      <div class="why-block-title">Variedade</div>
+      <p class="why-block-text">Do impresso ao digital — uma solução completa para toda a comunicação da sua empresa.</p>
+    </div>
+  </div>
+  <div class="why-content">
+    <p class="section-label">Por que a Mídia & Cia</p>
+    <h2 class="section-title">Mais que gráfica, <span class="hl-magenta">parceiros</span> da sua marca</h2>
+    <p>Com anos de experiência em comunicação visual, entendemos que cada cliente tem uma necessidade única. Nosso trabalho é transformar suas ideias em materiais que comunicam de verdade — e que ficam na memória do seu público.</p>
+    <p>Atendemos desde o pequeno empreendedor até grandes empresas, com o mesmo cuidado e dedicação em cada peça produzida.</p>
+    <ul class="feature-list">
+      <li>Orçamento rápido e sem compromisso</li>
+      <li>Entrega no prazo combinado</li>
+      <li>Arte inclusa no orçamento</li>
+      <li>Materiais de alta durabilidade</li>
+      <li>Atendimento personalizado</li>
+    </ul>
+    <a href="#contato" class="btn-primary">Solicitar orçamento agora</a>
+  </div>
+</section>
+
+<!-- PORTFOLIO -->
+<section id="portfolio">
+  <div class="portfolio-header">
+    <p class="section-label">Portfólio</p>
+    <h2 class="section-title">Trabalhos que <span class="hl-yellow">falam</span> por si</h2>
+    <p>Alguns dos projetos que mais nos orgulhamos. Cada peça com propósito, identidade e resultado.</p>
+  </div>
+  <div class="portfolio-grid">
+    <div class="port-item">
+      <div class="port-bg"><i class="ph ph-storefront"></i></div>
+      <div class="port-info"><strong>Fachada Comercial</strong><span>Sinalização & Letra Caixa</span></div>
+    </div>
+    <div class="port-item">
+      <div class="port-bg"><i class="ph ph-flag"></i></div>
+      <div class="port-info"><strong>Banner de Lona</strong><span>Impressão Grande Formato</span></div>
+    </div>
+    <div class="port-item">
+      <div class="port-bg"><i class="ph ph-van"></i></div>
+      <div class="port-info"><strong>Envelopamento</strong><span>Adesivo Veicular</span></div>
+    </div>
+    <div class="port-item">
+      <div class="port-bg"><i class="ph ph-signpost"></i></div>
+      <div class="port-info"><strong>Totem</strong><span>Sinalização Interna</span></div>
+    </div>
+    <div class="port-item">
+      <div class="port-bg"><i class="ph ph-newspaper"></i></div>
+      <div class="port-info"><strong>Materiais Impressos</strong><span>Flyer & Folder</span></div>
+    </div>
+    <div class="port-item">
+      <div class="port-bg"><i class="ph ph-lightbulb"></i></div>
+      <div class="port-info"><strong>Identidade Visual</strong><span>Branding Completo</span></div>
+    </div>
+  </div>
+</section>
+
+<!-- DEPOIMENTOS -->
+<section id="depoimentos">
+  <div class="dep-header">
+    <p class="section-label">Depoimentos</p>
+    <h2 class="section-title">O que nossos <span class="hl-blue">clientes</span> dizem</h2>
+  </div>
+  <div class="dep-grid">
+    <div class="dep-card">
+      <div class="dep-stars">★★★★★</div>
+      <p class="dep-text">"A Mídia & Cia superou todas as expectativas. A fachada ficou incrível e o prazo foi cumprido à risca. Com certeza voltarei para novos projetos!"</p>
+      <div class="dep-author">
+        <div class="dep-avatar">RM</div>
+        <div>
+          <div class="dep-name">Ricardo Martins</div>
+          <div class="dep-role">Dono de Restaurante</div>
+        </div>
+      </div>
+    </div>
+    <div class="dep-card">
+      <div class="dep-stars">★★★★★</div>
+      <p class="dep-text">"Pedi os banners para um evento com prazo curto e eles entregaram antes do tempo e com qualidade excelente. Muito profissionais!"</p>
+      <div class="dep-author">
+        <div class="dep-avatar">AS</div>
+        <div>
+          <div class="dep-name">Ana Souza</div>
+          <div class="dep-role">Coordenadora de Marketing</div>
+        </div>
+      </div>
+    </div>
+    <div class="dep-card">
+      <div class="dep-stars">★★★★★</div>
+      <p class="dep-text">"Fizemos toda a identidade visual da nossa nova loja com a Mídia & Cia. O resultado foi além do esperado — nossa marca ficou com outra cara!"</p>
+      <div class="dep-author">
+        <div class="dep-avatar">JF</div>
+        <div>
+          <div class="dep-name">João Ferreira</div>
+          <div class="dep-role">Empresário</div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- CTA BAND -->
+<div id="cta-band">
+  <h2>Pronto para destacar sua marca?</h2>
+  <p>Entre em contato agora e receba um orçamento rápido e sem compromisso.</p>
+  <a href="#contato" class="btn-cta-white">Falar com um especialista</a>
+</div>
+
+<!-- CONTATO -->
+<section id="contato">
+  <div class="contact-info">
+    <p class="section-label">Contato</p>
+    <h2 class="section-title">Vamos criar algo <span class="hl-magenta">incrível</span> juntos</h2>
+    <p>Preencha o formulário ao lado ou fale diretamente conosco pelos canais abaixo. Retornamos em até 1 hora útil.</p>
+    <div class="contact-items">
+      <div class="contact-item">
+        <div class="contact-icon"><i class="ph ph-map-pin"></i></div>
+        <div>
+          <div class="contact-item-label">Endereço</div>
+          <div class="contact-item-value">Rua Exemplo, 123 – Sua Cidade, UF</div>
+        </div>
+      </div>
+      <div class="contact-item">
+        <div class="contact-icon"><i class="ph ph-whatsapp-logo"></i></div>
+        <div>
+          <div class="contact-item-label">WhatsApp</div>
+          <div class="contact-item-value">(00) 00000-0000</div>
+        </div>
+      </div>
+      <div class="contact-item">
+        <div class="contact-icon"><i class="ph ph-envelope"></i></div>
+        <div>
+          <div class="contact-item-label">E-mail</div>
+          <div class="contact-item-value">contato@midiaecia.com.br</div>
+        </div>
+      </div>
+      <div class="contact-item">
+        <div class="contact-icon"><i class="ph ph-clock"></i></div>
+        <div>
+          <div class="contact-item-label">Horário</div>
+          <div class="contact-item-value">Seg–Sex 08h–18h · Sáb 08h–12h</div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <div>
+    <div class="contact-form">
+      <div class="form-row">
+        <div class="form-group">
+          <label>Nome</label>
+          <input type="text" placeholder="Seu nome"/>
+        </div>
+        <div class="form-group">
+          <label>Telefone / WhatsApp</label>
+          <input type="tel" placeholder="(00) 00000-0000"/>
+        </div>
+      </div>
+      <div class="form-group">
+        <label>E-mail</label>
+        <input type="email" placeholder="seu@email.com"/>
+      </div>
+      <div class="form-group">
+        <label>Serviço desejado</label>
+        <select>
+          <option value="">Selecione um serviço...</option>
+          <option>Identidade Visual</option>
+          <option>Banner / Lona</option>
+          <option>Sinalização</option>
+          <option>Adesivo / Envelopamento</option>
+          <option>Materiais Impressos</option>
+          <option>Comunicação Digital</option>
+          <option>Outro</option>
+        </select>
+      </div>
+      <div class="form-group">
+        <label>Mensagem</label>
+        <textarea rows="5" placeholder="Descreva seu projeto ou dúvida..."></textarea>
+      </div>
+      <button type="button" class="btn-submit">Enviar mensagem →</button>
+    </div>
+  </div>
+</section>
+
+<!-- FOOTER -->
+<footer>
+  <div class="footer-top">
+    <div class="footer-brand">
+      <span class="nav-logo">Mídia <span>&</span> Cia</span>
+      <p>Comunicação visual com qualidade, agilidade e criatividade. Transformamos sua marca em presença real.</p>
+    </div>
+    <div class="footer-col">
+      <h4>Serviços</h4>
+      <ul>
+        <li><a href="#servicos">Identidade Visual</a></li>
+        <li><a href="#servicos">Banners & Outdoors</a></li>
+        <li><a href="#servicos">Sinalização</a></li>
+        <li><a href="#servicos">Adesivos</a></li>
+        <li><a href="#servicos">Materiais Impressos</a></li>
+      </ul>
+    </div>
+    <div class="footer-col">
+      <h4>Links</h4>
+      <ul>
+        <li><a href="#hero">Início</a></li>
+        <li><a href="#diferenciais">Por que nós</a></li>
+        <li><a href="#portfolio">Portfólio</a></li>
+        <li><a href="#depoimentos">Depoimentos</a></li>
+        <li><a href="#contato">Contato</a></li>
+      </ul>
+    </div>
+  </div>
+  <div class="footer-bottom">
+    <span>© 2026 Mídia & Cia Comunicação Visual. Todos os direitos reservados.</span>
+    <span>Feito com ❤️ para destacar sua marca</span>
+  </div>
+</footer>
+
+<!-- WhatsApp FAB -->
+<a href="https://wa.me/5500000000000" target="_blank" class="whatsapp-fab" title="Falar no WhatsApp"><i class="ph ph-whatsapp-logo"></i></a>
+
+</body>
+</html>
